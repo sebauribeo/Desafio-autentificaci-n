@@ -1,18 +1,30 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div class="my-5 container">
+    <div v-if="enviarUsuario">
+      <h1 class="text-center">Bienvenido</h1>
+      <div class="card">
+        <div class="card-body">
+          <p class="card-text">Usuario: {{enviarUsuario.email}}</p>
+        </div>
+      </div>
+    </div>
+    <div class="alert alert-danger" role="alert" v-else>No hay usuario en sesión.</div>
+    <div>
+      <button type="button" class="btn btn-success mt-5" @click="$router.push('/login')">Volver a login</button>
+    </div>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+import { mapGetters } from "vuex";
 
 export default {
   name: 'Home',
-  components: {
-    HelloWorld
-  }
+  computed: {
+    ...mapGetters(['enviarUsuario']),
+  },
+
+  
+
 }
 </script>
