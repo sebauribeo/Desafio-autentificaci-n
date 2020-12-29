@@ -11,14 +11,19 @@
     <label for="exampleInputPassword1" class="form-label">Password</label>
     <input type="password" class="form-control" id="exampleInputPassword1" v-model="contrasena">
   </div>
-  <button type="submit" class="btn btn-primary">Submit</button>
+  <button type="submit" class="btn btn-primary" @click="verificandoEmail">Submit</button>
 </form>
+<div>
+  <h1>Email: user@user.com</h1>
+  <h2>Password: 123456</h2>
+</div>
     
   </div>
 </template>
 
 <script>
 import firebase from 'firebase'
+import { mapGetters } from "vuex";
 
   export default {
     name: 'Login',
@@ -35,18 +40,34 @@ import firebase from 'firebase'
             .then((result) => {
               console.log(result.user.uid);
               console.log(result.user.email);
+              console.log(result.user);
               console.log("login");
               this.$router.push({name: 'Home'});
             })
             .catch((error) => {
               console.error(error.code);
               console.error(error.message);
+              alert('Usuario o contraseña incorrecto')
             });
           } else {
             console.log("no se puede");
           }
+        },
+        verificandoEmail(){
+          if (!this.enviarUsuario.emailVerified) {
+          this.enviarUsuario.sendEmailVerification().then(() => {
+            console.log("Correo enviado");
+          }).catch((error) => {
+            console.error(error)
+          }); 
+          } else {
+            console.log("El Correo ya esta verificado");
+          }
         }
-      }
+    },
+    computed: {
+    ...mapGetters(['enviarUsuario']),
+  }, 
   }
 </script>
 

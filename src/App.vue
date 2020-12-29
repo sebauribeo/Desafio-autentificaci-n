@@ -30,13 +30,12 @@ import firebase from 'firebase';
 export default {
   name: 'App',
     mounted() {
-    // este metodo permite supervisar la conexion de los usuarios (si entran o salen de sesión)
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
-        this.$store.dispatch('user',user); // si entra se envia la inforamcion del usuario a la store
+        this.$store.dispatch('user',user); 
       } else {
         console.log("cierre de sesion");
-        this.$store.dispatch('user',null); //si sale, se borra la informacion de la store
+        this.$store.dispatch('user',null); 
       }
     });
   },
